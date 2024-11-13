@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_hr_promotion_tree" model="ir.ui.view">
+        <field name="name">hr.promotion.tree</field>
+        <field name="model">hr.promotion</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="order_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_promotion_form" model="ir.ui.view">
+        <field name="name">hr.promotion.form</field>
+        <field name="model">hr.promotion</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,hr,confirmed,cancelled"/>
+                    <button name="action_submit" type="object" string="Submit"  class="oe_highlight"/>
+                    <button name="action_approve" type="object" string="Confirm" class="oe_highlight" groups="employee_promotion.group_employee_administrator"/>
+                    <button name="action_create_invoice" type="object" string="Create Invoice" class="oe_highlight"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="oe_highlight" groups="employee_promotion.group_employee_administrator"/>
+                </header>
+
+                <sheet>
+                        <h1> <field name="order_name" readonly="1"/></h1>
+                    <group>
+                    <group>
+                        <field name="employee_id" required="1"/>
+                        <field name="effective_date" required="1"/>
+                        <field name="current_salary" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+
+                    </group>
+                    <group>
+                        <field name="grade_id"/>
+                        <field name="promoted_salary" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                         <field name="promoted_grade_id"/>
+                    </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Promotion Lines">
+                            <field name="promotion_line_ids">
+                                <tree editable="bottom">
+<!--                                    <field name="promotion_id"/>-->
+                                    <field name="salary_rule_id"/>
+                                    <field name="current_amount" widget="monetary"/>
+                                    <field name="new_amount" widget="monetary" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <div class="oe_chatter">
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
+
